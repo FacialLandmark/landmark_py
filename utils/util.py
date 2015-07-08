@@ -1,4 +1,4 @@
-import sys
+import os
 
 def raw_input_t(*args):
     old_stdout = sys.stdout

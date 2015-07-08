@@ -61,11 +61,12 @@ def main(argv):
         save_path = '.'
 
     begTime = time.time()
-    reg = LDCascador(config.config)  
-        
+    cascade = LDCascador()  
+    cascade.config(config.config)
+
     ### Strat to train    
-    reg.printParas()
-    reg.train(save_path)
+    cascade.printParas()
+    cascade.train(save_path)
     
     trainTime = getTimeByStamp(begTime, time.time(), 'min')
     print("The total training time : %f hours"%(trainTime))

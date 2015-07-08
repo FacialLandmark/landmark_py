@@ -3,7 +3,7 @@ import sys
 import numpy as np
 from   numpy import loadtxt
 from PIL import Image
-from affine import *       
+from utils import *       
 import math
 
 ### API for augment data
@@ -26,7 +26,7 @@ class AugShape(object):
     def shift(cls, shape):
         return shape
 
-class DataWrapper(object):
+class TrainSet(object):
     def __init__(self):
         self.imgDatas = []
         self.gtShapes = []
@@ -95,7 +95,7 @@ class DataWrapper(object):
         self.residuals = np.asarray(self.residuals)
     
         
-class LDReader(object):
+class DataWrapper(object):
     def __init__(self, para): 
         self.dataType = para['dataType']
         self.path = para['path']
@@ -105,7 +105,7 @@ class LDReader(object):
         if not os.path.exists(self.path):
             raise Exception("Train set not exist")
         
-        dator = DataWrapper()
+        trainSet = TrainSet()
        
         paths = open(self.path).readlines()
         for imgP in paths:
@@ -136,13 +136,13 @@ class LDReader(object):
                 
                 ### Get the bndBox. Can use detector Here
                 bndBox = self.getBBoxByPts(gtShape)
-                dator.add(img, gtShape, bndBox)
+                trainSet.add(img, gtShape, bndBox)
             except:
                 pass
 
         ### Calculate the meanShape
-        dator.genTrainData(self.augNum)
-        return dator
+        trainSet.genTrainData(self.augNum)
+        return trainSet
 
     def getBBoxByPts(self, pts):
         maxV = np.max(pts, axis=0)
@@ -162,7 +162,8 @@ class LDReader(object):
         return (x,y,w,h), img[y:y+h, x:x+w]
     
     def printParas(self):
-        print('path           = %s'%(self.path))
+        print('\tDataset     = %s'%(self.path))
+        print('\tAugment Num = %d'%(self.augNum))
 
     
         

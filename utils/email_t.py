@@ -1,3 +1,4 @@
+import sys
 import smtplib
 #from email.mime.multipart import MIMEMultipart
 #from email.mime.text import MIMEText
@@ -5,9 +6,6 @@ from email.MIMEBase import MIMEBase
 from email.MIMEText import MIMEText
 from email.MIMEMultipart import MIMEMultipart
 from email import Encoders
-
-import os
-
 
 class Email(object):
     
