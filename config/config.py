@@ -8,8 +8,13 @@ config = {
     'regressorPara'    :
         {
         'name'       :  'lbf_reg',
-        'maxTreeNums':  [1000],
-        'treeDepths' :  [5],
+        'para'       :
+            {
+            'maxTreeNums':  [50],
+            'treeDepths' :  [5],
+            'feaNums'    :  [300],
+            'radiuses'   :  [0.4, 0.3, 0.2, 0.15],
+            }
         },
     
     'dataPara'   :

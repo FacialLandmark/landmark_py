@@ -4,27 +4,37 @@ class RegressorWrapper(object):
     def __init__(self, paras):        
         self.name        = paras['name'].upper()
         self.dataType    = paras['dataType']
-        self.maxTreeNums = paras['maxTreeNums']
-        self.treeDepths  = paras['treeDepths']
+        self.para        = paras['para']
 
     def printParas(self):        
-        print('\tName          = '+self.name)
-        print('\tMax Tree Nums = '+str(self.maxTreeNums))
-        print('\tTree Depths   = '+str(self.treeDepths))
-        
-    def getClassInstance(self, idx):
+        print('\t%-20s= %s'%('name', self.name))
+        for key in self.para:
+            print('\t%-20s= %s'%(key, str(self.para[key])))
+                  
+    def getParaLBF(self, idx):
         regPara = dict()        
         regPara['dataType'] = self.dataType
 
-        length = len(self.maxTreeNums)
-        __idx = min(idx, length-1)
-        regPara['maxTreeNum'] = self.maxTreeNums[__idx]
+        length = len(self.para['maxTreeNums'])
+        _idx = min(idx, length-1)
+        regPara['maxTreeNum'] = self.para['maxTreeNums'][_idx]
                      
-        length = len(self.treeDepths)
-        __idx = min(idx, length-1)
-        regPara['treeDepth'] = self.treeDepths[__idx] 
-           
+        length = len(self.para['treeDepths'])
+        _idx = min(idx, length-1)
+        regPara['treeDepth'] = self.para['treeDepths'][_idx] 
+
+        length = len(self.para['feaNums'])
+        _idx = min(idx, length-1)
+        regPara['feaNum'] = self.para['feaNums'][_idx] 
+
+        length = len(self.para['radiuses'])
+        _idx = min(idx, length-1)
+        regPara['radius'] = self.para['radiuses'][_idx]
+        return regPara
+
+    def getClassInstance(self, idx):                   
         if "LBF_REG"==self.name :
+            regPara = self.getParaLBF(idx)
             regClass = LBFRegressor
         else:
             raise Exception("Unsupport: %s "%(self.name))

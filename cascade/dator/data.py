@@ -4,6 +4,7 @@ import numpy as np
 from   numpy import loadtxt
 from PIL import Image
 from utils import *       
+from affine import *
 import math
 
 ### API for augment data
@@ -32,7 +33,9 @@ class TrainSet(object):
         self.gtShapes = []
         self.bndBoxs  = []        
         self.initShapes = []
-        self.meanShape  = None
+        self.ms2reals  = []
+        self.real2mss  = []
+        self.meanShape = None
 
     def add(self, img, gtShape, bndBox):
         self.imgDatas.append(img)
@@ -62,7 +65,9 @@ class TrainSet(object):
         ### Trans list into numpy's array
         self.initShapes = np.asarray(self.initShapes)
         self.gtShapes   = np.asarray(self.gtShapes)
-        self.bndBoxs    = np.asarray(self.bndBoxs)         
+        self.bndBoxs    = np.asarray(self.bndBoxs)
+        self.getAffineT()
+        ### Todo : shuffle the train set 
     
     def shapeReal2Norm(self, realShape, bndBox):
         normShape = np.subtract(realShape, 
@@ -78,21 +83,33 @@ class TrainSet(object):
                            (bndBox[0],bndBox[1]))
         return realShape
     
-    def calResiduals(self):       
-        self.residuals = []
-
+    def getAffineT(self):
         num = self.gtShapes.shape[0]
+        self.ms2real  = []
+        self.real2ms  = []
+
         for i in range(num):
             ### Project to meanshape coordinary    
             bndBox = self.bndBoxs[i]
+            initShape = self.initShapes[i]
             mShape = self.shapeNorm2Real(self.meanShape,
                                          bndBox)             
-            T = Affine.fitGeoTrans(shape, mShape)
+            T = Affine.fitGeoTrans(initShape, mShape)   
+            self.real2mss.append(T)
+            T = Affine.fitGeoTrans(mShape, initShape)
+            self.ms2reals.append(T)
+
+    def calResiduals(self):       
+        num = self.gtShapes.shape[0]
+        self.residuals = np.zero(num, 2)
+        
+        for i in range(num):
+            ### Project to meanshape coordinary              
+            T = self.real2mss[i]
             err = self.gtShapes[i]-self.initShapes[i]
             err = np.divide(err, (bndBox[2], bndBox[3]))
             err = Affine.transPointsForward(err, T)
-            self.residuals.append(err)
-        self.residuals = np.asarray(self.residuals)
+            self.residuals[i,:] = err
     
         
 class DataWrapper(object):
@@ -126,13 +143,15 @@ class DataWrapper(object):
                 img = Image.open(imgP)
                 if 'L' != img.mode.upper():
                     img = img.convert("L")
-                img = np.asarray(img)
+                img = np.asarray(img, dtype=np.float32)
 
                 ### Crop the image
                 bndBox = self.getBBoxByPts(gtShape)
                 cropB, img = self.cropRegion(bndBox, 2, img)
                 gtShape = np.subtract(gtShape, 
                                       (cropB[0], cropB[1]))
+
+                ### Todo add rotation to augment the sample
                 
                 ### Get the bndBox. Can use detector Here
                 bndBox = self.getBBoxByPts(gtShape)

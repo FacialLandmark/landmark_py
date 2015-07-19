@@ -62,7 +62,7 @@ class LDCascador(object):
         for idx in xrange(self.stageNum):
             ### train one stage
             reg = self.regWrapper.getClassInstance(idx)
-            reg.train()
+            reg.train(trainSet)
             self.regressors.append(reg)
         
         self.saveModel(save_path)

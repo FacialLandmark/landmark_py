@@ -4,6 +4,8 @@ import random as RD
 class Affine(object):
     @classmethod
     def transPointsForward(cls, pts, T):
+        if pts.ndim != 2:
+            raise Exception("Must 2-D array")
         ptNum = pts.shape[0]
         newPts = np.zeros((ptNum, 2))
         newPts[:,0] = T[0,0]*pts[:,0]+T[1,0]*pts[:,1]+T[2,0]
