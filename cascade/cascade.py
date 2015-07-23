@@ -2,6 +2,7 @@ import sys
 import os
 import numpy
 import time
+import pickle
 from utils   import *
 from dator import *
 from regressor import *
@@ -82,7 +83,15 @@ class LDCascador(object):
         
     def saveModel(self, save_path):
         name = self.name.lower()
-        model_path = "%s/model/landmark.pyobj"%(save_path)
+        model_path = "%s/model/train.model"%(save_path)
+        model = open(model_path, 'w')
+        obj_path = "%s/model/%s.pyobj"%(save_path, name)
+        model.write(obj_path)
+
+        objFile = open(obj_path, 'wb')
+        pickle.dump(self, objFile)
+        objFile.close()        
+        model.close()
         
     def detect(self, img):
         return 
