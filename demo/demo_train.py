@@ -60,16 +60,20 @@ def main(argv):
     if '' == save_path:
         save_path = '.'
 
-    begTime = time.time()
     cascade = LDCascador()  
     cascade.config(config.config)
 
     ### Strat to train    
     cascade.printParas()
-    cascade.train(save_path)
-    
-    trainTime = getTimeByStamp(begTime, time.time(), 'min')
-    print("The total training time : %f hours"%(trainTime))
+
+    print("\n-------------------------------------------")
+    print("-----------  Training Progress  -----------")
+    print("Start training ... ")
+    begTime = time.time()
+    cascade.train(save_path)    
+    trainTime = getTimeByStamp(begTime, time.time(), 'hour')
+    print("Finish Training : %f hours"%(trainTime))
+    print("-------------------------------------------")
        
 if __name__ == '__main__' :
     main(sys.argv[1:])

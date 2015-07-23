@@ -3,7 +3,7 @@ config = {
     'name'       : "face_alignment" ,       
     'version'    : "1.0"  ,
     'dataType'   :  numpy.float32, 
-    'stageNum'   :  5 ,
+    'stageNum'   :  4 ,
     
     'regressorPara'    :
         {
@@ -12,8 +12,10 @@ config = {
             {
             'maxTreeNums':  [50],
             'treeDepths' :  [5],
-            'feaNums'    :  [300],
+            'feaNums'    :  [6],
             'radiuses'   :  [0.4, 0.3, 0.2, 0.15],
+            'binNums'    :  [511],
+            'feaRanges'  :  [[-255, 255]],
             }
         },
     

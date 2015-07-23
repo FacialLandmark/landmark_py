@@ -30,6 +30,15 @@ class RegressorWrapper(object):
         length = len(self.para['radiuses'])
         _idx = min(idx, length-1)
         regPara['radius'] = self.para['radiuses'][_idx]
+
+        length = len(self.para['binNums'])
+        _idx = min(idx, length-1)
+        regPara['binNum'] = self.para['binNums'][_idx]
+
+        length = len(self.para['feaRanges'])
+        _idx = min(idx, length-1)
+        regPara['feaRange'] = self.para['feaRanges'][_idx]
+
         return regPara
 
     def getClassInstance(self, idx):                   

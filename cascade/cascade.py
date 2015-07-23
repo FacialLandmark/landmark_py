@@ -60,10 +60,19 @@ class LDCascador(object):
         trainSet = self.dataWrapper.read()        
 
         for idx in xrange(self.stageNum):
+            print("\t%drd stage begin ..."%idx)
+            begTime = time.time()
+            ### calculate the residuals
+            trainSet.calResiduals()
+            
             ### train one stage
             reg = self.regWrapper.getClassInstance(idx)
             reg.train(trainSet)
-            self.regressors.append(reg)
+            self.regressors.append(reg)        
+            
+            t = getTimeByStamp(begTime, 
+                               time.time(), 'hour')
+            print("\t%drd stage end : %f hours\n"%(idx, t))
         
         self.saveModel(save_path)
     

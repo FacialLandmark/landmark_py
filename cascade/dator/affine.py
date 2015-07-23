@@ -3,14 +3,26 @@ import random as RD
 
 class Affine(object):
     @classmethod
-    def transPointsForward(cls, pts, T):
+    def transPntsForwardWithSameT(cls, pts, T):
         if pts.ndim != 2:
             raise Exception("Must 2-D array")
-        ptNum = pts.shape[0]
-        newPts = np.zeros((ptNum, 2))
+        newPts = np.zeros(pts.shape)
         newPts[:,0] = T[0,0]*pts[:,0]+T[1,0]*pts[:,1]+T[2,0]
         newPts[:,1] = T[0,1]*pts[:,0]+T[1,1]*pts[:,1]+T[2,1]
         return newPts
+
+    @classmethod
+    def transPntsForwardWithDiffT(cls, pts, Ts):
+        if pts.ndim != 2:
+            raise Exception("Must 2-D array")
+        nPts = np.zeros(pts.shape)
+        pntNum = pts.shape[0]
+
+        for i in range(pntNum):
+            T = Ts[i]
+            nPts[i,0]=T[0,0]*pts[i,0]+T[1,0]*pts[i,1]+T[2,0]
+            nPts[i,1]=T[0,1]*pts[i,0]+T[1,1]*pts[i,1]+T[2,1]
+        return nPts
 
     @classmethod
     def fitGeoTrans(cls, src, dst, 

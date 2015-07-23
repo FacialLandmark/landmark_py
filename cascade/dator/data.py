@@ -66,7 +66,6 @@ class TrainSet(object):
         self.initShapes = np.asarray(self.initShapes)
         self.gtShapes   = np.asarray(self.gtShapes)
         self.bndBoxs    = np.asarray(self.bndBoxs)
-        self.getAffineT()
         ### Todo : shuffle the train set 
     
     def shapeReal2Norm(self, realShape, bndBox):
@@ -100,15 +99,18 @@ class TrainSet(object):
             self.ms2reals.append(T)
 
     def calResiduals(self):       
-        num = self.gtShapes.shape[0]
-        self.residuals = np.zero(num, 2)
+        ### Compute the affine matrix 
+        self.getAffineT()
         
+        self.residuals = np.zeros(self.gtShapes.shape)
+        num = self.gtShapes.shape[0]
         for i in range(num):
             ### Project to meanshape coordinary              
             T = self.real2mss[i]
+            bndBox = self.bndBoxs[i]
             err = self.gtShapes[i]-self.initShapes[i]
             err = np.divide(err, (bndBox[2], bndBox[3]))
-            err = Affine.transPointsForward(err, T)
+            err = Affine.transPntsForwardWithSameT(err, T)
             self.residuals[i,:] = err
     
         
