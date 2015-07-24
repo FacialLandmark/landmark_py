@@ -14,7 +14,7 @@ Now It only supportes LBF(Local Binary Features) regression(Based on the [matlab
 
 #### __TODO__    
 ---     
-* [__TODO__] Support Face Detector to detect the face, Instead of use landmarks to generate Face Rect
+* [__TODO__] Support Face Detector to detect the face instead of getting face rect via landmarks
 * [__TODO__] Support `Explicit Shape Regression`    
 * [__TODO__] Try random ferns instead of random forest   
 * [__TODO__] Try finding the best split when training Random Forest. Now using random split    
@@ -26,3 +26,6 @@ Now It only supportes LBF(Local Binary Features) regression(Based on the [matlab
 ---    
 1. Face Alignment at 3000 FPS via Regressing Local Binary Features    
 2. Face Alignment by Explicit Shape Regression
+
+#### __Contact__    
+If you have any questions, please email shenfei1208@gmail.com or creating an issue on GitHub.
