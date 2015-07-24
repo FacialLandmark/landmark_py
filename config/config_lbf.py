@@ -25,6 +25,10 @@ config = {
     
     'dataPara'   :
         {
+	### The path.txt file contain the image file list, like following
+	###    ./fonder/image1.jpg      
+	###    ./fonder/image2.jpg
+        ###    ...
         'path': "/home/samuel/data/AFW/path.txt",
         'augNum' : 0
         }     

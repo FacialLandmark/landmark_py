@@ -14,7 +14,7 @@ Now It only supportes LBF(Local Binary Features) regression(Based on the [matlab
 
 * __Train__    
 `
-./demo_train.py ../config/config.py
+./demo_train.py ../config/config_lbf.py
 `
 
 * __Test__    
