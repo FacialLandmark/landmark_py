@@ -18,17 +18,17 @@ Now It only supportes LBF(Local Binary Features) regression(Based on the [matlab
 `
 
 * __Test__    
-coming soon
+`coming soon`
 
 * __Evaluate__   
-coming soon    
+`coming soon`    
 
 #### __Extend__
 ---    
-1. Training with your own dataset    
+* __Training with your own dataset__    
 You should implement your own reader. Please refer to `AFLWReader` in `./cascade/dator/data.py`.
 
-2. Implement other regression algorithm 
+* __Implement other regression algorithm__ 
 Please refer to `cascade/regressor/lbfRegressor.py`. And then wrapped in `cascade/regressor/regressorWrapper.py`
 
 
