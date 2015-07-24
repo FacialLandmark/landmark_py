@@ -5,7 +5,6 @@ config = {
     ### Different dataset using different reading method
     'dataset'    : "aflw" ,
     'version'    : "1.0"  ,
-    'dataType'   :  numpy.float32, 
     'stageNum'   :  4 ,
     
     'regressorPara'    :

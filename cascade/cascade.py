@@ -14,7 +14,6 @@ class LDCascador(object):
     def __init__(self):     
         self.name     = None
         self.version  = None
-        self.dataType = numpy.float64
         self.stageNum = None
         
         self.dataWrapper = None
@@ -37,19 +36,14 @@ class LDCascador(object):
     def config(self, paras):
          self.name     = paras['name']
          self.version  = paras['version']
-         self.dataType = paras['dataType']
          self.stageNum = paras['stageNum']
-         if 'dataType' in paras:
-             self.dataType = paras['dataType']
 
          ### Construct the regressor wrapper
          regPara = paras['regressorPara']
-         regPara['dataType'] = self.dataType
          self.regWrapper = RegressorWrapper(regPara)
 
          ### Construct the data wrapper
          dataPara = paras['dataPara']
-         dataPara['dataType'] = self.dataType 
          if 'dataset' in paras:
              dataPara['dataset'] = paras['dataset']
          self.dataWrapper = DataWrapper(dataPara)

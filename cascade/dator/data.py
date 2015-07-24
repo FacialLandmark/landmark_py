@@ -119,7 +119,6 @@ class TrainSet(object):
         
 class DataWrapper(object):
     def __init__(self, para): 
-        self.dataType = para['dataType']
         self.path = para['path']
         self.augNum = para['augNum']
 

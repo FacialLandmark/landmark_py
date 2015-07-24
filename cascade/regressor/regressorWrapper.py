@@ -3,7 +3,6 @@ from  lbfRegressor import *
 class RegressorWrapper(object):
     def __init__(self, paras):        
         self.name        = paras['name'].upper()
-        self.dataType    = paras['dataType']
         self.para        = paras['para']
 
     def printParas(self):        
@@ -13,7 +12,6 @@ class RegressorWrapper(object):
                   
     def getParaLBF(self, idx):
         regPara = dict()        
-        regPara['dataType'] = self.dataType
 
         length = len(self.para['maxTreeNums'])
         _idx = min(idx, length-1)
