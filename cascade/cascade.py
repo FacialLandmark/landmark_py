@@ -22,8 +22,8 @@ class LDCascador(object):
         self.regressors = []
 
     def printParas(self):
-        print('-------------------------------------------')
-        print('----------   Configuration    -------------')
+        print('------------------------------------------')
+        print('----------   Configuration    ------------')
         print('Name           = %s'%(self.name))
         print('Version        = %s'%(self.version))
         print('Stage Num      = %s'%(self.stageNum))
@@ -31,8 +31,8 @@ class LDCascador(object):
         self.dataWrapper.printParas()
         print('\n-- Regressor Config --')
         self.regWrapper.printParas()
-        print('---------   End of Configuration   --------')
-        print('-------------------------------------------\n')
+        print('---------   End of Configuration   -------')
+        print('------------------------------------------\n')
                    
     def config(self, paras):
          self.name     = paras['name']
@@ -50,6 +50,8 @@ class LDCascador(object):
          ### Construct the data wrapper
          dataPara = paras['dataPara']
          dataPara['dataType'] = self.dataType 
+         if 'dataset' in paras:
+             dataPara['dataset'] = paras['dataset']
          self.dataWrapper = DataWrapper(dataPara)
 
     def train(self, save_path):
@@ -76,8 +78,8 @@ class LDCascador(object):
             self.regressors.append(reg)        
             
             t = getTimeByStamp(begTime, 
-                               time.time(), 'hour')
-            print("\t%drd stage end : %f hours\n"%(idx, t))
+                               time.time(), 'min')
+            print("\t%drd stage end : %f mins\n"%(idx, t))
         self.saveModel(save_path)
     
         

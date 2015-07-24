@@ -63,9 +63,12 @@ class TrainSet(object):
         ### Todo : Add augment            
             
         ### Trans list into numpy's array
-        self.initShapes = np.asarray(self.initShapes)
-        self.gtShapes   = np.asarray(self.gtShapes)
-        self.bndBoxs    = np.asarray(self.bndBoxs)
+        self.initShapes = np.asarray(self.initShapes,
+                                     dtype = np.float32)
+        self.gtShapes   = np.asarray(self.gtShapes,
+                                     dtype = np.float32)
+        self.bndBoxs    = np.asarray(self.bndBoxs,
+                                     dtype = np.float32)
         ### Todo : shuffle the train set 
     
     def shapeReal2Norm(self, realShape, bndBox):
@@ -120,49 +123,36 @@ class DataWrapper(object):
         self.path = para['path']
         self.augNum = para['augNum']
 
+        if 'dataset' in para:
+            if 'aflw' == para['dataset'].lower():
+                self.reader = AFLWReader
+        else:
+            self.reader = SelfReader
+
     def read(self):
         if not os.path.exists(self.path):
-            raise Exception("Train set not exist")
-        
+            raise Exception("Train set not exist")     
         trainSet = TrainSet()
        
         paths = open(self.path).readlines()
         for imgP in paths:
-            try:
-                imgP = imgP.strip()
-                folder, name = os.path.split(imgP)
-                file_name,_ = os.path.splitext(name)
-                folder, id_name = os.path.split(folder)
-                annP = "%s/Annotations/%s/%s_face.txt"%(folder,
-                                                   id_name,
-                                                   file_name)
-                ### Load the ground truth of shape
-                gtShape = loadtxt(annP, comments="#", 
-                                  delimiter=",",
-                                  unpack=False)
-                gtShape = gtShape.astype(np.float32)
-                
-                ### Load the image data
-                img = Image.open(imgP)
-                if 'L' != img.mode.upper():
-                    img = img.convert("L")
-                img = np.asarray(img, dtype=np.float32)
-
+            try:                
+                img, gtShape = self.reader.read(imgP)
                 ### Crop the image
                 bndBox = self.getBBoxByPts(gtShape)
                 cropB, img = self.cropRegion(bndBox, 2, img)
                 gtShape = np.subtract(gtShape, 
                                       (cropB[0], cropB[1]))
 
-                ### Todo add rotation to augment the sample
-                
-                ### Get the bndBox. Can use detector Here
+                ### TODO 1. add rotation to augment the sample
+                ### TODO 2. Use face detector to detect the face
+                ### Get the bndBox.
                 bndBox = self.getBBoxByPts(gtShape)
                 trainSet.add(img, gtShape, bndBox)
             except:
                 pass
 
-        ### Calculate the meanShape
+        ### Generate the meanShape
         trainSet.genTrainData(self.augNum)
         return trainSet
 
@@ -188,6 +178,62 @@ class DataWrapper(object):
         print('\tAugment Num = %d'%(self.augNum))
 
     
+class SelfReader(object):
+    """
+    self contained
+    """
+    @classmethod
+    def read(cls, imgPath):
+        imgP = imgPath.strip()
+        folder, name = os.path.split(imgP)
+        file_name,_ = os.path.splitext(name)
+        folder, id_name = os.path.split(folder)
+        annP = "%s/Annotations/%s/%s_face.txt"%(folder,
+                                                id_name,
+                                                file_name)
+        
+        ### Load the ground truth of shape
+        gtShape = loadtxt(annP, comments="#", 
+                          delimiter=",",
+                          unpack=False)
+        gtShape = gtShape.astype(np.float32)
+        
+        ### Load the image data
+        img = Image.open(imgP)
+        if 'L' != img.mode.upper():
+            img = img.convert("L")
+        img = np.asarray(img, dtype=np.float32)
+        return img, gtShape
+                
+        
+class AFLWReader(object):
+    @classmethod
+    def read(cls, imgPath):
+        imgP = imgPath.strip()
+        folder, name = os.path.split(imgP)
+        file_name,_ = os.path.splitext(name)
+        annP = "%s/%s.pts"%(folder, file_name)
+        
+        ### Load the ground truth of shape
+        lines = open(annP, 'r').readlines()
+        gtShape = []
+        for line in lines:
+            line = line.strip()
+            if not str.isdigit(line[0]):
+                continue
+            x, y = line.split()
+            gtShape.append((x,y))
+            
+        gtShape = np.asarray(gtShape, dtype=np.float32)
+        
+        ### Load the image data
+        img = Image.open(imgP)
+        if 'L' != img.mode.upper():
+            img = img.convert("L")
+        img = np.asarray(img, dtype=np.uint8)
+        return img, gtShape
+        
+        
         
    
      

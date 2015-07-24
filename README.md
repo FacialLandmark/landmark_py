@@ -12,6 +12,26 @@ Now It only supportes LBF(Local Binary Features) regression(Based on the [matlab
 #### __Usage__    
 ---    
 
+* __Train__    
+`
+./demo_train.py ../config/config.py
+`
+
+* __Test__    
+coming soon
+
+* __Evaluate__   
+coming soon    
+
+#### __Extend__
+---    
+1. Training with your own dataset    
+You should implement your own reader. Please refer to `AFLWReader` in `./cascade/dator/data.py`.
+
+2. Implement other regression algorithm 
+Please refer to `cascade/regressor/lbfRegressor.py`. And then wrapped in `cascade/regressor/regressorWrapper.py`
+
+
 #### __TODO__    
 ---     
 * [__TODO__] Support Face Detector to detect the face instead of getting face rect via landmarks

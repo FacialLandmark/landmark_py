@@ -113,8 +113,11 @@ class RegTree(object):
             point_b[point_b[:,1]>imgH-1, 1]=imgH-1 
 
             ### Construct the idx list for get the elements
-            fea = imgData[point_a[0,1], point_a[0,0]] - \
-                  imgData[point_b[0,1], point_b[0,0]]
+            fea = NP.subtract(imgData[point_a[0,1], 
+                                      point_a[0,0]] ,
+                              imgData[point_b[0,1], 
+                                      point_b[0,0]],
+                              dtype=NP.float32)
 
             ### get the diff          
             fea = (fea-feaRange[0])/feaRange[2]
@@ -213,7 +216,8 @@ class RegTree(object):
                pointIdx, sampleIdxs, feaTypes):
         sampleNum = len(sampleIdxs)        
         feaNum = feaTypes.shape[0]
-        pdFea = NP.zeros((sampleNum, feaNum))
+        pdFea = NP.zeros((sampleNum, feaNum), 
+                         dtype=NP.float32)
 
         coord_a = NP.zeros((feaNum, 2))
         coord_b = NP.zeros((feaNum, 2))
@@ -261,11 +265,13 @@ class RegTree(object):
             idx_b[0], idx_b[1] = idx_b[1], idx_b[0]
 
             ### get the diff          
-            pdFea[i,:] = imgData[idx_a] - imgData[idx_b]
+            pdFea[i,:] = NP.subtract(imgData[idx_a],
+                                     imgData[idx_b],
+                                     dtype = NP.int16)
         return pdFea
 
     def genFeaType(self, num):
-        feaType = NP.zeros((num, 4))
+        feaType = NP.zeros((num, 4), dtype=NP.float32)
         radRange, angRange = 30, 36
         a = NP.array(range(0, (radRange+1)*(angRange+1)),
                         dtype=NP.float32)
@@ -288,29 +294,16 @@ class RegTree(object):
                              ang_a/angRange*2*math.pi,
                              rad_b/radRange*self.radius,
                              ang_b/angRange*2*math.pi) 
-
-        # For Debug
-        # a = NP.array((0,2,4,6,8,10), dtype=NP.float32)
-        # b = NP.array((1,3,5,7,9,11), dtype=NP.float32)
-        # for i in range(6):
-        #     rad_a = math.floor(a[i]/(angRange+1))
-        #     ang_a = math.floor(a[i]%(angRange+1))
-        #     rad_b = math.floor(b[i]/(angRange+1))
-        #     ang_b = math.floor(b[i]%(angRange+1))
-        #     feaType[i, :] = ((a[i])/radRange*self.radius,
-        #                      (a[i])/angRange*2*math.pi,
-        #                      (b[i])/radRange*self.radius,
-        #                      (b[i])/angRange*2*math.pi) 
         return feaType
     
     def normalize(self, feas):
         feaDim = feas.shape[1]        
         minFeas = NP.empty(feaDim, 
-                           dtype = feas.dtype)
+                           dtype = NP.float32)
         maxFeas = NP.empty(feaDim, 
-                           dtype = feas.dtype)
+                           dtype = NP.float32)
         feaSteps= NP.empty(feaDim, 
-                           dtype = feas.dtype)
+                           dtype = NP.float32)
 
         if None != self.feaRange:
             minFeas[:] = self.feaRange[0]
@@ -318,9 +311,9 @@ class RegTree(object):
         else:
             NP.min(feas, axis=0, out=minFeas)
             NP.max(feas, axis=0, out=maxFeas)
-        feaR = self.feaRange[1]-self.feaRange[0]+1
+        feaR = (maxFeas - minFeas + 1)
         feaSteps[:] = feaR/self.binNum
         NP.subtract(feas, minFeas, out=feas)
-        NP.divide(feas, feaSteps, out=feas)
+        NP.divide(feas, feaSteps, out=feas, dtype=NP.float32)
         NP.round(feas, out=feas)
         return minFeas, maxFeas, feaSteps
