@@ -46,4 +46,5 @@ Please refer to `cascade/regressor/lbfRegressor.py`. And then wrapped in `cascad
 2. Face Alignment by Explicit Shape Regression
 
 #### __Contact__    
+---    
 If you have any questions, please email `shenfei1208@gmail.com` or creating an issue on GitHub.
