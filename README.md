@@ -13,12 +13,12 @@ Now It only supportes LBF(Local Binary Features) regression(Based on the [matlab
 ---    
 
 * __Train__    
-Get more training config in `./config/config_lbf.py` 
-`./demo_train.py ../config/config_lbf.py`    
+Get more details of training configuration in `./config/config_lbf.py`        
+>./demo_train.py ../config/config_lbf.py    
 
 * __Evaluate__     
 You can evaluate on different dataset via change the `line57:demo_evaluate.py`        
-`./demo_evaluate.py  ../config/model/train.model  path.lst`    
+>./demo_evaluate.py  ../config/model/train.model  path.lst       
 
 #### __Extension__
 ---    
