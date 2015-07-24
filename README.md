@@ -1,6 +1,26 @@
-实现了孙剑的3000fps的特征点
+Landmark with Regressition in Python
+====
+Now It's only supported LBF(Local Binary Features) regression and ALFW dataset.      
 
-#### __Todo List__    
+#### __Dependencies__    
+---    
+* python2.7    
+* numpy    
+* scipy    
+* scikit-learn    
+
+#### __Usage__    
+---    
+
+#### __TODO__    
 --- 
-* [TODO] 随机森林的每颗树的节点分割时，采用在某个特征上随机分割，可以使用最佳分割
-* [TODO] 计算Pixel Diff特征时，采用的是最近邻采样，尝试线性插值
+* [TODO] Support `Explicit Shape Regression`    
+* [TODO] Try random ferns instead of random forest    
+* [TODO] Try different interpolations when computing `Pixel Difference Feature`      
+* [TODO] Try finding the best split when training Random Forest. Now using random split
+
+
+#### __References__    
+---    
+1. Face Alignment at 3000 FPS via Regressing Local Binary Features    
+2. Face Alignment by Explicit Shape Regression    

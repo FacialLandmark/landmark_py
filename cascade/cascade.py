@@ -58,7 +58,11 @@ class LDCascador(object):
             os.mkdir('%s/model'%(save_path))
         
         ### read data first 
+        begTime = time.time()
         trainSet = self.dataWrapper.read()        
+        t = getTimeByStamp(begTime, 
+                           time.time(), 'min')
+        print("\tLoading Data: %f mins\n"%(t))
 
         for idx in xrange(self.stageNum):
             print("\t%drd stage begin ..."%idx)
@@ -74,7 +78,6 @@ class LDCascador(object):
             t = getTimeByStamp(begTime, 
                                time.time(), 'hour')
             print("\t%drd stage end : %f hours\n"%(idx, t))
-        
         self.saveModel(save_path)
     
         

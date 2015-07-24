@@ -133,13 +133,14 @@ class DataWrapper(object):
                 folder, name = os.path.split(imgP)
                 file_name,_ = os.path.splitext(name)
                 folder, id_name = os.path.split(folder)
-                annP = "%s/Annotations/%s/%s.txt"%(folder,
+                annP = "%s/Annotations/%s/%s_face.txt"%(folder,
                                                    id_name,
                                                    file_name)
                 ### Load the ground truth of shape
-                gtShape=loadtxt(annP, comments="#", 
-                                delimiter=",",
-                                unpack=False)
+                gtShape = loadtxt(annP, comments="#", 
+                                  delimiter=",",
+                                  unpack=False)
+                gtShape = gtShape.astype(np.float32)
                 
                 ### Load the image data
                 img = Image.open(imgP)
