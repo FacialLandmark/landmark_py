@@ -3,6 +3,13 @@ import random as RD
 
 class Affine(object):
     @classmethod
+    def transPntForward(cls, pt, T):
+        newPt = np.zeros(2, dtype=pt.dtype)
+        newPt[0] = T[0,0]*pt[0]+T[1,0]*pt[1]+T[2,0]
+        newPt[1] = T[0,1]*pt[0]+T[1,1]*pt[1]+T[2,1]
+        return newPt
+
+    @classmethod
     def transPntsForwardWithSameT(cls, pts, T):
         if pts.ndim != 2:
             raise Exception("Must 2-D array")

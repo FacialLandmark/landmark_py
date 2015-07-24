@@ -75,12 +75,47 @@ class LBFRegressor(object):
         elapse = getTimeByStamp(begTime, time.time(), 'min')
         print("\t\tUpdate Shape      : %f mins"%elapse)
             
+    def detect(self, img, bndbox, initShape, affineT):
+        ### Extract features
+        fea = self.extractFea(img, bndbox, 
+                              initShape, affineT)
+        pntNum = initShape.shape[0]
+        ### Get the residules
+        for i in xrange(pntNum):
+            regX = self.regs[2*i]
+            regY = self.regs[2*i+1]
+            
+            x = regX.predict(fea)
+            y = regY.predict(fea)
+            delta = NP.squeeze(NP.dstack((x,y)))
+            delta = Affine.transPntForward(delta, affineT)
+            initShape[i,:] = initShape[i,:] + delta
+
     def getFeaDim(self):
         feaDim = 0
         for rf in self.rfs:
             for tree in rf.trees:
                 feaDim = feaDim + tree.leafNum
         return feaDim
+
+
+    def extractFea(self, img, bndbox, initShape, affineT):
+        feaDim = self.getFeaDim()
+        fea = lil_matrix((1, feaDim), 
+                         dtype=NP.int8)
+
+        offset = 0
+        for j, rf in enumerate(self.rfs):
+            point = initShape[j]
+            for t in rf.trees:
+                ### TODO judge the empty tree
+                leafIdx, dim = t.genBinaryFea(img, 
+                                              bndbox, 
+                                              affineT, 
+                                              point)
+                fea[0, offset+leafIdx] = 1
+                offset = offset + dim                    
+        return fea
 
     def genFeaOnTrainset(self, trainSet):
         feaDim = self.getFeaDim()
@@ -94,7 +129,6 @@ class LBFRegressor(object):
             affineT = trainSet.ms2reals[i]
             shape   = trainSet.initShapes[i]
             
-            idx = []
             offset = 0
             for j, rf in enumerate(self.rfs):
                 point = shape[j]

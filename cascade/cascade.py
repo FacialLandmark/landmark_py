@@ -17,8 +17,9 @@ class LDCascador(object):
         self.stageNum = None
         
         self.dataWrapper = None
-        self.regWrapper = None
-        self.regressors = []
+        self.regWrapper  = None
+        self.regressors  = []
+        self.meanShape   = None
 
     def printParas(self):
         print('------------------------------------------')
@@ -55,7 +56,8 @@ class LDCascador(object):
         
         ### read data first 
         begTime = time.time()
-        trainSet = self.dataWrapper.read()        
+        trainSet = self.dataWrapper.read()     
+        self.meanShape = trainSet.meanShape
         t = getTimeByStamp(begTime, 
                            time.time(), 'min')
         print("\tLoading Data: %f mins\n"%(t))
@@ -75,23 +77,33 @@ class LDCascador(object):
                                time.time(), 'min')
             print("\t%drd stage end : %f mins\n"%(idx, t))
         self.saveModel(save_path)
-    
+
+    def detect(self, img, bndbox, initShape):
+        for reg in self.regressors:
+            affineT = Affine.fitGeoTrans(self.meanShape,
+                                         initShape)
+            reg.detect(img, bndbox, initShape, affineT)
         
+    
     def loadModel(self, model):
-        return
+        path_obj = open(model, 'r').readline().strip()      
+        folder = os.path.split(model)[0]
+        objFile = open("%s/%s"%(folder, path_obj), 'rb')
+        self = pickle.load(objFile)
+        objFile.close()
+        return self
         
     def saveModel(self, save_path):
         name = self.name.lower()
         model_path = "%s/model/train.model"%(save_path)
-        model = open(model_path, 'w')
+        model = open(model_path, 'w')        
+        model.write("%s.pyobj"%(name))
         obj_path = "%s/model/%s.pyobj"%(save_path, name)
-        model.write(obj_path)
-
+        
         objFile = open(obj_path, 'wb')
         pickle.dump(self, objFile)
         objFile.close()        
         model.close()
         
-    def detect(self, img):
-        return 
+    
 

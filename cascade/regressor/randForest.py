@@ -1,7 +1,7 @@
 import math
 import numpy as NP
 import random
-from ..dator import *
+from dator import *
 
 class RandForest(object):
     def __init__(self, 
@@ -75,8 +75,8 @@ class RegTree(object):
         tree = self.tree
         imgH, imgW  = imgData.shape
         w, h = bndBox[2:4]
-        point_a = NP.zeros((1, 2))
-        point_b = NP.zeros((1, 2))
+        point_a = NP.zeros(2, dtype=point.dtype)
+        point_b = NP.zeros(2, dtype=point.dtype)
         while 'leafIdx' not in tree:
             feaType  = tree["feaType"] 
             feaRange = tree["feaRange"]
@@ -87,16 +87,16 @@ class RegTree(object):
             ms_x_ratio = angle_cos*feaType[[0,2]]
             ms_y_ratio = angle_sin*feaType[[0,2]]
             
-            point_a[0,0] = ms_x_ratio[0]*w
-            point_a[0,1] = ms_y_ratio[0]*h
-            point_b[0,0] = ms_x_ratio[1]*w
-            point_b[0,1] = ms_y_ratio[1]*h
+            point_a[0] = ms_x_ratio[0]*w
+            point_a[1] = ms_y_ratio[0]*h
+            point_b[0] = ms_x_ratio[1]*w
+            point_b[1] = ms_y_ratio[1]*h
             
             ### convert meanshape coord into real coord
-            point_a = Affine.transPntsForwardWithSameT(point_a,
-                                                       affineT)
-            point_b = Affine.transPntsForwardWithSameT(point_b, 
-                                                       affineT)
+            point_a = Affine.transPntForward(point_a,
+                                             affineT)
+            point_b = Affine.transPntForward(point_b, 
+                                             affineT)
             point_a = point_a + point
             point_b = point_b + point
             
@@ -105,18 +105,22 @@ class RegTree(object):
             point_b = NP.around(point_b)
             
             ### Check with the image size
-            point_a[point_a<0]=0 
-            point_a[point_a[:,0]>imgW-1, 0]=imgW-1 
-            point_a[point_a[:,1]>imgH-1, 1]=imgH-1 
+            point_a[point_a<0]=0             
             point_b[point_b<0]=0 
-            point_b[point_b[:,0]>imgW-1, 0]=imgW-1 
-            point_b[point_b[:,1]>imgH-1, 1]=imgH-1 
+            if point_a[0]>imgW-1:
+                point_a[0]=imgW-1
+            if point_a[1]>imgH-1:
+                point_a[1]=imgH-1
+            if point_b[0]>imgW-1:
+                point_b[0]=imgW-1
+            if point_b[1]>imgH-1:
+                point_b[1]=imgH-1
 
             ### Construct the idx list for get the elements
-            fea = NP.subtract(imgData[point_a[0,1], 
-                                      point_a[0,0]] ,
-                              imgData[point_b[0,1], 
-                                      point_b[0,0]],
+            fea = NP.subtract(imgData[point_a[1], 
+                                      point_a[0]] ,
+                              imgData[point_b[1], 
+                                      point_b[0]],
                               dtype=NP.float32)
 
             ### get the diff          

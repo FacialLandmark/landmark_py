@@ -5,6 +5,7 @@ from   numpy import loadtxt
 from PIL import Image
 from utils import *       
 from affine import *
+import copy
 import math
 
 ### API for augment data
@@ -150,7 +151,7 @@ class DataWrapper(object):
                 trainSet.add(img, gtShape, bndBox)
             except:
                 pass
-
+        
         ### Generate the meanShape
         trainSet.genTrainData(self.augNum)
         return trainSet
@@ -169,8 +170,11 @@ class DataWrapper(object):
         x = max(0, math.floor(bbox[0]-(w-bbox[2])/2))
         y = max(0, math.floor(bbox[1]-(h-bbox[3])/2))
         w = min(width-x, w)
-        h = min(height-y, h)       
-        return (x,y,w,h), img[y:y+h, x:x+w]
+        h = min(height-y, h)     
+        
+        ### If not use deepcopy, the subImg will hold the whole img's memory
+        subImg = copy.deepcopy(img[y:y+h, x:x+w])
+        return (x,y,w,h), subImg
     
     def printParas(self):
         print('\tDataset     = %s'%(self.path))

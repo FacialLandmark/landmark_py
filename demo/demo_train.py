@@ -19,7 +19,6 @@ def usage():
     print('[[Usage]]::')
     print('\t{0}  [Paras]  config.py'.format(sys.argv[0]))
     print("[[Paras]]::")
-    print("\temail|e    : Sent email when finished if enable")
     print("\thelp|h     : Print the help information ")
     print("-----------------------------------------------")
     return 
@@ -27,23 +26,20 @@ def usage():
 def main(argv):
     try:
         options, args = getopt.getopt(argv, 
-                                      "he:", 
-                                      ["help", "email"])
+                                      "h", 
+                                      ["help"])
     except getopt.GetoptError:  
         usage()
-        sys.exit(1)
+        return
     
     if len(sys.argv) < 2:
         usage()
-        sys.exit(1)
+        return
 
-    bIsSendEmail     = False
     for opt , arg in options:
         if opt in ('-h', '--help'):
             usage()
             return
-        if opt in ('-e', '--email'):
-            bIsSendEmail = True
 
     #Get the paras for training
     try:
