@@ -1,6 +1,6 @@
 Landmark with Regressition in Python
 ====
-Now It's only supported LBF(Local Binary Features) regression and ALFW dataset.      
+Now It only supportes LBF(Local Binary Features) regression(Based on the [matlab version](https://github.com/jwyang/face-alignment)) with [AFLW](http://lrs.icg.tugraz.at/research/aflw/) dataset format.      
 
 #### __Dependencies__    
 ---    
@@ -14,13 +14,13 @@ Now It's only supported LBF(Local Binary Features) regression and ALFW dataset.
 
 #### __TODO__    
 --- 
-* [TODO] Support `Explicit Shape Regression`    
-* [TODO] Try random ferns instead of random forest    
-* [TODO] Try different interpolations when computing `Pixel Difference Feature`      
-* [TODO] Try finding the best split when training Random Forest. Now using random split
+* [__TODO__] Support `Explicit Shape Regression`    
+* [__TODO__] Try random ferns instead of random forest    
+* [__TODO__] Try different interpolations when computing `Pixel Difference Feature`      
+* [__TODO__] Try finding the best split when training Random Forest. Now using random split
 
 
 #### __References__    
 ---    
 1. Face Alignment at 3000 FPS via Regressing Local Binary Features    
-2. Face Alignment by Explicit Shape Regression    
+2. Face Alignment by Explicit Shape Regression
