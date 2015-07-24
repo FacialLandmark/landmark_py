@@ -13,22 +13,20 @@ Now It only supportes LBF(Local Binary Features) regression(Based on the [matlab
 ---    
 
 * __Train__    
-`
-./demo_train.py ../config/config_lbf.py
-`
+`./demo_train.py ../config/config_lbf.py`    
 
 * __Test__    
-coming soon
+`coming soon`
 
 * __Evaluate__   
-coming soon    
+`coming soon`    
 
-#### __Extend__
+#### __Extension__
 ---    
-1. Training with your own dataset    
+* __Training with your own dataset__    
 You should implement your own reader. Please refer to `AFLWReader` in `./cascade/dator/data.py`.
 
-2. Implement other regression algorithm 
+* __Implement other regression algorithm__ 
 Please refer to `cascade/regressor/lbfRegressor.py`. And then wrapped in `cascade/regressor/regressorWrapper.py`
 
 
@@ -48,4 +46,5 @@ Please refer to `cascade/regressor/lbfRegressor.py`. And then wrapped in `cascad
 2. Face Alignment by Explicit Shape Regression
 
 #### __Contact__    
-If you have any questions, please email shenfei1208@gmail.com or creating an issue on GitHub.
+---    
+If you have any questions, please email `shenfei1208@gmail.com` or creating an issue on GitHub.
