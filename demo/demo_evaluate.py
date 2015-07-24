@@ -57,25 +57,26 @@ def main(argv):
     reader = AFLWReader
     for imgPath in pathList:
         img, gtShape = reader.read(imgPath.strip())
-        ### Show the ground truth
+        ### TODO Show the ground truth
         gtShape = NP.round(gtShape)
         
-        ### Set the initial shape
-        initShape = copy.deepcopy(cas.meanShape) 
-
         ### Set the bndbox. TODO try face detector
-        maxV = NP.max(initShape, axis=0)
-        minV = NP.min(initShape, axis=0)
+        maxV = NP.max(gtShape, axis=0)
+        minV = NP.min(gtShape, axis=0)
         bndbox = (minV[0], minV[1],
                   maxV[0]-minV[0]+1,
                   maxV[1]-minV[1]+1)  
+        
+        ### Set the initial shape
+        initShape = Shape.shapeNorm2Real(cas.meanShape,
+                                         bndbox)
         
         ### Detect the landmark
         cas.detect(img, bndbox, initShape)
         initShape = NP.round(initShape)
         
-        ### Show the result
-        
+        ### TODO Show the result
+    ### TODO Compute the benchmark
     
 if __name__ == '__main__' :
     main(sys.argv[1:])

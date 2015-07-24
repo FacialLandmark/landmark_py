@@ -9,7 +9,23 @@ import copy
 import math
 
 ### API for augment data
-class AugShape(object):
+class Shape(object):
+    @classmethod
+    def shapeReal2Norm(cls, realShape, bndBox):
+        normShape = np.subtract(realShape, 
+                                (bndBox[0],bndBox[1]))
+        normShape = np.divide(normShape, 
+                              (bndBox[2]-1,bndBox[3]-1))
+        return normShape
+    
+    @classmethod
+    def shapeNorm2Real(cls, normShape, bndBox):
+        realShape = np.multiply(normShape, 
+                                (bndBox[2]-1, bndBox[3]-1))
+        realShape = np.add(realShape, 
+                           (bndBox[0],bndBox[1]))
+        return realShape
+    
     def augment(cls, shape):
         shape = cls.scale(shape)
         shape = cls.rotate(shape)
@@ -46,7 +62,8 @@ class TrainSet(object):
     def calMeanShape(self):              
         meanShape = np.zeros(self.gtShapes[0].shape)
         for idx, s in enumerate(self.gtShapes):
-            shape = self.shapeReal2Norm(s, self.bndBoxs[idx])
+            shape = Shape.shapeReal2Norm(s, 
+                                         self.bndBoxs[idx])
             meanShape = np.add(meanShape, shape)
             
         self.meanShape = meanShape/len(self.gtShapes)
@@ -57,8 +74,8 @@ class TrainSet(object):
         
         ### Set meanshape as the initshape
         for bb in self.bndBoxs:
-            initShape = self.shapeNorm2Real(self.meanShape,
-                                            bb)
+            initShape = Shape.shapeNorm2Real(self.meanShape,
+                                             bb)
             self.initShapes.append(initShape)
 
         ### Todo : Add augment            
@@ -72,20 +89,6 @@ class TrainSet(object):
                                      dtype = np.float32)
         ### Todo : shuffle the train set 
     
-    def shapeReal2Norm(self, realShape, bndBox):
-        normShape = np.subtract(realShape, 
-                                (bndBox[0],bndBox[1]))
-        normShape = np.divide(normShape, 
-                              (bndBox[2]-1,bndBox[3]-1))
-        return normShape
-    
-    def shapeNorm2Real(self, normShape, bndBox):
-        realShape = np.multiply(normShape, 
-                                (bndBox[2]-1, bndBox[3]-1))
-        realShape = np.add(realShape, 
-                           (bndBox[0],bndBox[1]))
-        return realShape
-    
     def getAffineT(self):
         num = self.gtShapes.shape[0]
         self.ms2real  = []
@@ -95,7 +98,7 @@ class TrainSet(object):
             ### Project to meanshape coordinary    
             bndBox = self.bndBoxs[i]
             initShape = self.initShapes[i]
-            mShape = self.shapeNorm2Real(self.meanShape,
+            mShape = Shape.shapeNorm2Real(self.meanShape,
                                          bndBox)             
             T = Affine.fitGeoTrans(initShape, mShape)   
             self.real2mss.append(T)
