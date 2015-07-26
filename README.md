@@ -33,7 +33,9 @@ Please refer to `cascade/regressor/lbfRegressor.py`. And then wrapped in `cascad
 
 
 #### __TODO__    
----     
+---
+
+You can find more todo list via searching "TODO" in source code         
 * [__TODO__] Support Face Detector to detect the face instead of getting face rect via landmarks
 * [__TODO__] Support `Explicit Shape Regression`    
 * [__TODO__] Try random ferns instead of random forest   

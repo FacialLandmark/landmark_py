@@ -51,7 +51,8 @@ class LBFRegressor(object):
         begTime = time.time()
         y = trainSet.residuals
         y = y.reshape(y.shape[0], y.shape[1]*y.shape[2])
-        for i in xrange(pntNum*2):   
+        for i in xrange(pntNum*2):
+            ### TODO Show the training result 
             reg=LinearSVR(epsilon=0.0, 
                           C = feas.shape[0],
                           loss='squared_epsilon_insensitive',

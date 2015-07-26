@@ -31,7 +31,7 @@ config = {
         'path': "/home/samuel/data/AFW/path.txt",
 
         ### augNum < 1 means don't do augmenting 
-        'augNum' : 2
+        'augNum' : 4
         }     
     }
  
