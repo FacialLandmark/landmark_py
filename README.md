@@ -5,12 +5,12 @@ Now It only supportes LBF(Local Binary Features) regression(Based on the [matlab
 #### __Dependencies__    
 ---    
        
-All of the following module can be installed by `pip`    
-* PIL
-* numpy    
-* scipy    
-* scikit-learn    
-* OpenCV(`Only Used in demo_evaluate.py to show the result`)
+All of the following module can be easily installed by `pip`    
+* __PIL__    
+* __numpy__    
+* __scipy__    
+* __scikit-learn__    
+* __cv2__ (`Optional`: Only Used in demo_evaluate.py to show the result)
 
 #### __Usage__    
 ---    
@@ -20,7 +20,7 @@ Get more details of training configuration in `./config/config_lbf.py`
 >./demo_train.py ../config/config_lbf.py    
 
 * __Evaluate__     
-You can evaluate on different dataset via change the `line57:demo_evaluate.py`        
+You can evaluate on different dataset via change the `line99:demo_evaluate.py`        
 >./demo_evaluate.py  ../config/model/train.model  path.lst       
 
 #### __Extension__
