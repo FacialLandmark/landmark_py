@@ -1,48 +1,12 @@
 import os
-import sys
 import numpy as np
-from   numpy import loadtxt
-from PIL import Image
-from utils import *       
-from affine import *
 import copy
 import math
 
-### API for augment data
-class Shape(object):
-    @classmethod
-    def shapeReal2Norm(cls, realShape, bndBox):
-        normShape = np.subtract(realShape, 
-                                (bndBox[0],bndBox[1]))
-        normShape = np.divide(normShape, 
-                              (bndBox[2]-1,bndBox[3]-1))
-        return normShape
-    
-    @classmethod
-    def shapeNorm2Real(cls, normShape, bndBox):
-        realShape = np.multiply(normShape, 
-                                (bndBox[2]-1, bndBox[3]-1))
-        realShape = np.add(realShape, 
-                           (bndBox[0],bndBox[1]))
-        return realShape
-    
-    def augment(cls, shape):
-        shape = cls.scale(shape)
-        shape = cls.rotate(shape)
-        shape = cls.shift(shape)
-        return shape
-
-    def scale(cls, shape):
-        scale = 1 + 0.2*(RD.random()-0.5)
-        cent = np.mean(shape, axis=0)
-        newShape = scale*(shape-cent) + cent
-        return newShape
-
-    def rotate(cls, shape):
-        return shape
-
-    def shift(cls, shape):
-        return shape
+from utils  import *       
+from affine import *
+from shape  import *
+from reader import *
 
 class TrainSet(object):
     def __init__(self):
@@ -53,6 +17,7 @@ class TrainSet(object):
         self.ms2reals  = []
         self.real2mss  = []
         self.meanShape = None
+        self.augNum = 1
 
     def add(self, img, gtShape, bndBox):
         self.imgDatas.append(img)
@@ -61,10 +26,9 @@ class TrainSet(object):
     
     def calMeanShape(self):              
         meanShape = np.zeros(self.gtShapes[0].shape)
-        for idx, s in enumerate(self.gtShapes):
-            shape = Shape.shapeReal2Norm(s, 
-                                         self.bndBoxs[idx])
-            meanShape = np.add(meanShape, shape)
+        for i, s in enumerate(self.gtShapes):
+            normS = Shape.shapeReal2Norm(s, self.bndBoxs[i])
+            meanShape = np.add(meanShape, normS)
             
         self.meanShape = meanShape/len(self.gtShapes)
 
@@ -77,17 +41,35 @@ class TrainSet(object):
             initShape = Shape.shapeNorm2Real(self.meanShape,
                                              bb)
             self.initShapes.append(initShape)
-
-        ### Todo : Add augment            
             
-        ### Trans list into numpy's array
+        ### Translate list into numpy's array
         self.initShapes = np.asarray(self.initShapes,
                                      dtype = np.float32)
         self.gtShapes   = np.asarray(self.gtShapes,
                                      dtype = np.float32)
         self.bndBoxs    = np.asarray(self.bndBoxs,
                                      dtype = np.float32)
-        ### Todo : shuffle the train set 
+        
+        ### Shape augment            
+        if augNum > 1:
+            self.augNum = augNum
+            self.initShapes = np.repeat(self.initShapes,
+                                        augNum,
+                                        axis = 0)
+            self.gtShapes = np.repeat(self.gtShapes,
+                                      augNum,
+                                      axis = 0)
+            self.bndBoxs = np.repeat(self.bndBoxs,
+                                     augNum,
+                                     axis = 0)
+            ### Permutate the augmented shape
+            sampleNum = self.initShapes.shape[0]
+            for i in xrange(sampleNum):
+                if 0==i%sampleNum:
+                    continue
+                shape = self.initShapes[i]
+                self.initShapes[i]= Shape.augment(shape)
+        return
     
     def getAffineT(self):
         num = self.gtShapes.shape[0]
@@ -142,15 +124,15 @@ class DataWrapper(object):
             try:                
                 img, gtShape = self.reader.read(imgP)
                 ### Crop the image
-                bndBox = self.getBBoxByPts(gtShape)
+                bndBox = Shape.getBBoxByPts(gtShape)
                 cropB, img = self.cropRegion(bndBox, 2, img)
                 gtShape = np.subtract(gtShape, 
                                       (cropB[0], cropB[1]))
 
-                ### TODO 1. add rotation to augment the sample
-                ### TODO 2. Use face detector to detect the face
+                ### TODO Add rotation to augment the sample
+                ### TODO Use face detector to detect the face
                 ### Get the bndBox.
-                bndBox = self.getBBoxByPts(gtShape)
+                bndBox = Shape.getBBoxByPts(gtShape)
                 trainSet.add(img, gtShape, bndBox)
             except:
                 pass
@@ -158,13 +140,6 @@ class DataWrapper(object):
         ### Generate the meanShape
         trainSet.genTrainData(self.augNum)
         return trainSet
-
-    def getBBoxByPts(self, pts):
-        maxV = np.max(pts, axis=0)
-        minV = np.min(pts, axis=0)
-        return (minV[0], minV[1],
-                maxV[0]-minV[0]+1,
-                maxV[1]-minV[1]+1)    
 
     def cropRegion(self, bbox, scale, img):
         height, width = img.shape
@@ -183,66 +158,3 @@ class DataWrapper(object):
         print('\tDataset     = %s'%(self.path))
         print('\tAugment Num = %d'%(self.augNum))
 
-    
-class SelfReader(object):
-    """
-    self contained
-    """
-    @classmethod
-    def read(cls, imgPath):
-        imgP = imgPath.strip()
-        folder, name = os.path.split(imgP)
-        file_name,_ = os.path.splitext(name)
-        folder, id_name = os.path.split(folder)
-        annP = "%s/Annotations/%s/%s_face.txt"%(folder,
-                                                id_name,
-                                                file_name)
-        
-        ### Load the ground truth of shape
-        gtShape = loadtxt(annP, comments="#", 
-                          delimiter=",",
-                          unpack=False)
-        gtShape = gtShape.astype(np.float32)
-        
-        ### Load the image data
-        img = Image.open(imgP)
-        if 'L' != img.mode.upper():
-            img = img.convert("L")
-        img = np.asarray(img, dtype=np.float32)
-        return img, gtShape
-                
-        
-class AFLWReader(object):
-    @classmethod
-    def read(cls, imgPath):
-        imgP = imgPath.strip()
-        folder, name = os.path.split(imgP)
-        file_name,_ = os.path.splitext(name)
-        annP = "%s/%s.pts"%(folder, file_name)
-        
-        ### Load the ground truth of shape
-        lines = open(annP, 'r').readlines()
-        gtShape = []
-        for line in lines:
-            line = line.strip()
-            if not str.isdigit(line[0]):
-                continue
-            x, y = line.split()
-            gtShape.append((x,y))
-            
-        gtShape = np.asarray(gtShape, dtype=np.float32)
-        
-        ### Load the image data
-        img = Image.open(imgP)
-        if 'L' != img.mode.upper():
-            img = img.convert("L")
-        img = np.asarray(img, dtype=np.uint8)
-        return img, gtShape
-        
-        
-        
-   
-     
-    
-
-    

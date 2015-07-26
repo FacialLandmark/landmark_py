@@ -29,7 +29,9 @@ config = {
 	###    ./fonder/image2.jpg
         ###    ...
         'path': "/home/samuel/data/AFW/path.txt",
-        'augNum' : 0
+
+        ### augNum < 1 means don't do augmenting 
+        'augNum' : 2
         }     
     }
  

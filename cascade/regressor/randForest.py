@@ -231,10 +231,11 @@ class RegTree(object):
         ms_x_ratio = angle_cos*feaTypes[:, [0,2]]
         ms_y_ratio = angle_sin*feaTypes[:, [0,2]]
 
+        augNum = train_set.augNum
         for i, idx in enumerate(sampleIdxs):              
             T = train_set.ms2reals[idx]
             bndBox = train_set.bndBoxs[idx]
-            imgData = train_set.imgDatas[idx]            
+            imgData = train_set.imgDatas[idx/augNum]        
             initShape = train_set.initShapes[idx]
             
             imgH, imgW  = imgData.shape

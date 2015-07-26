@@ -4,6 +4,7 @@ import sys
 import getopt
 import time 
 import imp
+import random
 
 ### Add load path
 base = os.path.dirname(__file__)
@@ -51,6 +52,9 @@ def main(argv):
         return
     except :
         raise
+    
+    ### Set the random seed 
+    random.seed(time.time())
     
     save_path = os.path.split(args[0])[0]
     if '' == save_path:

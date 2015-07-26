@@ -26,6 +26,7 @@ class LBFRegressor(object):
         treeNum = int(self.maxTreeNum/pntNum)
         
         ### Train the random forests
+        random.seed
         begTime = time.time()
         for i in xrange(pntNum):
             rf = RandForest(treeDepth = self.treeDepth,
@@ -122,9 +123,10 @@ class LBFRegressor(object):
         sampleNum = trainSet.initShapes.shape[0]
         feas = lil_matrix((sampleNum, feaDim), 
                           dtype=NP.int8)
-
+        
+        augNum = trainSet.augNum
         for i in xrange(sampleNum):
-            imgData = trainSet.imgDatas[i] 
+            imgData = trainSet.imgDatas[i/augNum] 
             bndBox  = trainSet.bndBoxs[i] 
             affineT = trainSet.ms2reals[i]
             shape   = trainSet.initShapes[i]

@@ -4,10 +4,13 @@ Now It only supportes LBF(Local Binary Features) regression(Based on the [matlab
 
 #### __Dependencies__    
 ---    
-* python2.7    
+       
+All of the following module can be installed by `pip`    
+* PIL
 * numpy    
 * scipy    
 * scikit-learn    
+* OpenCV(`Only Used in demo_evaluate.py to show the result`)
 
 #### __Usage__    
 ---    
@@ -23,7 +26,7 @@ You can evaluate on different dataset via change the `line57:demo_evaluate.py`
 #### __Extension__
 ---    
 * __Training with your own dataset__    
-You should implement your own reader. Please refer to `AFLWReader` in `./cascade/dator/data.py`.
+You should implement your own reader. Please refer to `AFLWReader` in `./cascade/dator/reader.py`.
 
 * __Implement other regression algorithm__ 
 Please refer to `cascade/regressor/lbfRegressor.py`. And then wrapped in `cascade/regressor/regressorWrapper.py`
