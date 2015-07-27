@@ -5,18 +5,16 @@ Now It only supportes LBF(Local Binary Features) regression(Based on the [matlab
 #### __Dependencies__    
 ---    
        
-All of the following module can be easily installed by `pip`    
-* [PIL](http://www.pythonware.com/products/pil/)    
-* [numpy](http://www.numpy.org/)    
-* [scipy](http://www.scipy.org/)    
-* [scikit-learn](http://scikit-learn.org/stable/)    
-* [OpenCV](http://opencv.org/) (`Optional`: Only Used in demo_evaluate.py to show the result)
+All of the following modules can be easily installed by `pip`    
+> [PIL](http://www.pythonware.com/products/pil/)    
+> [numpy](http://www.numpy.org/)    
+> [scipy](http://www.scipy.org/)    
+> [scikit-learn](http://scikit-learn.org/stable/)    
+> [OpenCV](http://opencv.org/) (`Optional`: Only Used in demo_evaluate.py to show the result)
 
 Install script on Ubuntu 14.04   
-`
-sudo aptitude install python-pip gfortran
-sudo pip install pillow numpy scipy sklearn
-`
+>sudo aptitude install python-pip gfortran     
+>sudo pip install pillow numpy scipy sklearn    
 
 #### __Usage__    
 ---    
