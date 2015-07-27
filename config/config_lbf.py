@@ -12,10 +12,10 @@ config = {
         'name'       :  'lbf_reg',
         'para'       :
             {
-            'maxTreeNums':  [1000, 1000, 500, 500, 400],
+            'maxTreeNums':  [300],
             'treeDepths' :  [5],
-            'feaNums'    :  [6],
-            'radiuses'   :  [0.4, 0.3, 0.2, 0.15, 0.12, 0.1, 0.08],
+            'feaNums'    :  [1000, 750, 500, 375, 250],
+            'radiuses'   :  [0.4, 0.3, 0.2, 0.15, 0.12],
             ### Following para is used to quantize the feature
             'binNums'    :  [511],
             'feaRanges'  :  [[-255, 255]],

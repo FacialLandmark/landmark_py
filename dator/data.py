@@ -128,7 +128,7 @@ class DataWrapper(object):
                 cropB, img = self.cropRegion(bndBox, 2, img)
                 gtShape = np.subtract(gtShape, 
                                       (cropB[0], cropB[1]))
-
+                ### TODO Add flip to augment the sample
                 ### TODO Add rotation to augment the sample
                 ### TODO Use face detector to detect the face
                 ### Get the bndBox.
