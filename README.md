@@ -42,6 +42,7 @@ Please refer to `cascade/regressor/lbfRegressor.py`. And then wrapped in `cascad
 You can find more todo list via searching "TODO" in source code         
 * [__TODO__] Support Face Detector to detect the face instead of getting face rect via landmarks
 * [__TODO__] Support `Explicit Shape Regression`    
+* [__TODO__] Support `Supervised Descent Method`    
 * [__TODO__] Try random ferns instead of random forest   
 * [__TODO__] Try finding the best split when training Random Forest. Now using random split    
 * [__TODO__] Try different interpolations when computing `Pixel Difference Feature`      
@@ -51,7 +52,8 @@ You can find more todo list via searching "TODO" in source code
 #### __References__    
 ---    
 1. Face Alignment at 3000 FPS via Regressing Local Binary Features    
-2. Face Alignment by Explicit Shape Regression
+2. Face Alignment by Explicit Shape Regression   
+3. Supervised Descent Method and its Applications to Face Alignment    
 
 #### __Contact__    
 ---    
