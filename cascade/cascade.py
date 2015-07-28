@@ -1,6 +1,6 @@
 import sys
 import os
-import numpy
+import numpy as NP
 import time
 import pickle
 from utils   import *
@@ -67,6 +67,9 @@ class LDCascador(object):
             begTime = time.time()
             ### calculate the residuals
             trainSet.calResiduals()
+
+            sumR = NP.mean(NP.abs(trainSet.residuals))
+            print("\tManhattan Distance Loss in Mean Shape Space : %f"%sumR)
             
             ### train one stage
             reg = self.regWrapper.getClassInstance(idx)
@@ -79,8 +82,10 @@ class LDCascador(object):
         self.saveModel(save_path)
 
     def detect(self, img, bndbox, initShape):
+        mShape = Shape.shapeNorm2Real(self.meanShape,
+                                      bndbox)   
         for reg in self.regressors:
-            affineT = Affine.fitGeoTrans(self.meanShape,
+            affineT = Affine.fitGeoTrans(mShape,
                                          initShape)
             reg.detect(img, bndbox, initShape, affineT)
         

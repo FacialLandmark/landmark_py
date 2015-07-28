@@ -5,7 +5,7 @@ config = {
     ### Different dataset using different reading method
     'dataset'    : "aflw" ,
     'version'    : "1.0"  ,
-    'stageNum'   :  4 ,
+    'stageNum'   :  5 ,
     
     'regressorPara'    :
         {
@@ -31,7 +31,7 @@ config = {
         'path': "/home/samuel/data/AFW/path.txt",
 
         ### augNum < 1 means don't do augmenting 
-        'augNum' : 4
+        'augNum' : 1
         }     
     }
  

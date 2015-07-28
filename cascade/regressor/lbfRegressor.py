@@ -54,7 +54,7 @@ class LBFRegressor(object):
         for i in xrange(pntNum*2):
             ### TODO Show the training result 
             reg=LinearSVR(epsilon=0.0, 
-                          C = feas.shape[0],
+                          C = 1.0/feas.shape[0],
                           loss='squared_epsilon_insensitive',
                           fit_intercept = True)
             reg.fit(feas, y[:, i])
@@ -73,6 +73,8 @@ class LBFRegressor(object):
             delta = NP.squeeze(NP.dstack((x,y)))
             delta = Affine.transPntsForwardWithDiffT(delta, 
                                                      trainSet.ms2reals)
+            delta = NP.multiply(delta, 
+                                trainSet.bndBoxs[:,[2,3]])
             trainSet.initShapes[:,i,:] = trainSet.initShapes[:,i,:] + delta
         elapse = getTimeByStamp(begTime, time.time(), 'min')
         print("\t\tUpdate Shape      : %f mins"%elapse)
@@ -91,6 +93,7 @@ class LBFRegressor(object):
             y = regY.predict(fea)
             delta = NP.squeeze(NP.dstack((x,y)))
             delta = Affine.transPntForward(delta, affineT)
+            delta = NP.multiply(delta, (bndbox[2],bndbox[3]))
             initShape[i,:] = initShape[i,:] + delta
 
     def getFeaDim(self):
