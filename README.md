@@ -1,6 +1,7 @@
 Landmark with Regressition in Python
 ====
-Now It only supportes LBF(Local Binary Features) regression(Based on the [matlab version](https://github.com/jwyang/face-alignment)) with [AFLW](http://lrs.icg.tugraz.at/research/aflw/) dataset format.      
+Now It only supportes LBF(Local Binary Features) regression(Based on the [matlab version](https://github.com/jwyang/face-alignment)) with __pts__ format dataset      
+
 
 #### __Dependencies__    
 ---    
@@ -16,6 +17,7 @@ Install script on Ubuntu 14.04
 >sudo aptitude install python-pip gfortran     
 >sudo pip install pillow numpy scipy sklearn    
 
+
 #### __Usage__    
 ---    
 
@@ -27,17 +29,19 @@ Get more details of training configuration in `./config/config_lbf.py`
 You can evaluate on different dataset via change the `line99:demo_evaluate.py`        
 >./demo_evaluate.py  ../config/model/train.model  path.lst       
 
+
 #### __Tips__    
 ---    
-1. Data Augmentation by flip the image and points    
+1. Data Augmentation by flip the image and points      
+
 
 #### __Extension__
 ---    
 * __Training with your own dataset__    
-You should implement your own reader. Please refer to `AFLWReader` in `./cascade/dator/reader.py`.
+You should implement your own reader. Please refer to `AFLWReader` in `./cascade/dator/reader.py`.    
 
 * __Implement other regression algorithm__ 
-Please refer to `cascade/regressor/lbfRegressor.py`. And then wrapped in `cascade/regressor/regressorWrapper.py`
+Please refer to `cascade/regressor/lbfRegressor.py`. And then wrapped in `cascade/regressor/regressorWrapper.py`    
 
 
 #### __TODO__    
@@ -52,12 +56,12 @@ You can find more todo list via searching "TODO" in source code
 * [__TODO__] Try different interpolations when computing `Pixel Difference Feature`      
 
 
-
 #### __References__    
 ---    
 1. Face Alignment at 3000 FPS via Regressing Local Binary Features    
 2. Face Alignment by Explicit Shape Regression   
 3. Supervised Descent Method and its Applications to Face Alignment    
+
 
 #### __Contact__    
 ---    
