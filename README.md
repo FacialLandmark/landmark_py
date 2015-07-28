@@ -27,6 +27,10 @@ Get more details of training configuration in `./config/config_lbf.py`
 You can evaluate on different dataset via change the `line99:demo_evaluate.py`        
 >./demo_evaluate.py  ../config/model/train.model  path.lst       
 
+#### __Tips__    
+---    
+1. Data Augmentation by flip the image and points    
+
 #### __Extension__
 ---    
 * __Training with your own dataset__    
