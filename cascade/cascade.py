@@ -57,10 +57,12 @@ class LDCascador(object):
         ### read data first 
         begTime = time.time()
         trainSet = self.dataWrapper.read()     
+        dataNum = trainSet.initShapes.shape[0]
         self.meanShape = trainSet.meanShape
         t = getTimeByStamp(begTime, 
                            time.time(), 'min')
-        print("\tLoading Data: %f mins\n"%(t))
+        print("\tLoading Data: %f mins"%(t))
+        print("\tData Number : %d\n"%(dataNum))
 
         for idx in xrange(self.stageNum):
             print("\t%drd stage begin ..."%idx)
