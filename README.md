@@ -49,12 +49,13 @@ Please refer to `cascade/regressor/lbfRegressor.py`. And then wrapped in `cascad
 ---
 
 You can find more todo list via searching "TODO" in source code         
+* [__TODO__] Set the shape increment into the tree leaf node. This can speedup the test speed
 * [__TODO__] Support [AFLW](http://lrs.icg.tugraz.at/research/aflw/) training and evaluation
-* [__TODO__] Support `Explicit Shape Regression`    
-* [__TODO__] Support `Supervised Descent Method`    
 * [__TODO__] Try random ferns instead of random forest       
 * [__TODO__] Try finding the best split when training Random Forest. Now using random split     
 * [__TODO__] Try different interpolations when computing `Pixel Difference Feature`      
+* [__TODO__] Support `Explicit Shape Regression`    
+* [__TODO__] Support `Supervised Descent Method`    
 
 
 #### __References__    
