@@ -1,6 +1,6 @@
 Landmark with Regressition in Python
 ====
-Now It only supportes LBF(Local Binary Features) regression(Based on the [matlab version](https://github.com/jwyang/face-alignment)) with __pts__ format dataset      
+Now It only supportes LBF(Local Binary Features)[1] regression(Based on the [matlab version](https://github.com/jwyang/face-alignment)) with __pts__ format dataset      
 
 
 #### __Dependencies__    
@@ -16,7 +16,7 @@ All of the following modules can be easily installed by `pip`
 Install script on Ubuntu 14.04   
 >sudo aptitude install python-pip gfortran     
 >sudo pip install pillow numpy scipy sklearn    
->sudo aptitude install python-numpy    
+>sudo aptitude install python-opencv    
 
 
 #### __Usage__    
