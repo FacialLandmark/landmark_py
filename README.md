@@ -16,6 +16,7 @@ All of the following modules can be easily installed by `pip`
 Install script on Ubuntu 14.04   
 >sudo aptitude install python-pip gfortran     
 >sudo pip install pillow numpy scipy sklearn    
+>sudo aptitude install python-numpy    
 
 
 #### __Usage__    
