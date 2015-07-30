@@ -23,8 +23,8 @@ Install script on Ubuntu 14.04
 ---    
 
 * __Train__    
-Get more details of training configuration in `./config/config_lbf.py`        
->./demo_train.py ../config/config_lbf.py    
+Get more details of training configuration in `./config/config.py`        
+>./demo_train.py ../config/config.py    
 
 * __Evaluate__     
 You can evaluate on different dataset via change the `line99:demo_evaluate.py`        
@@ -49,18 +49,18 @@ Please refer to `cascade/regressor/lbfRegressor.py`. And then wrapped in `cascad
 ---
 
 You can find more todo list via searching "TODO" in source code         
-* [__TODO__] Support Face Detector to detect the face instead of getting face rect via landmarks
+* [__TODO__] Support [AFLW](http://lrs.icg.tugraz.at/research/aflw/) training and evaluation
 * [__TODO__] Support `Explicit Shape Regression`    
 * [__TODO__] Support `Supervised Descent Method`    
-* [__TODO__] Try random ferns instead of random forest   
-* [__TODO__] Try finding the best split when training Random Forest. Now using random split    
+* [__TODO__] Try random ferns instead of random forest       
+* [__TODO__] Try finding the best split when training Random Forest. Now using random split     
 * [__TODO__] Try different interpolations when computing `Pixel Difference Feature`      
 
 
 #### __References__    
 ---    
 1. Face Alignment at 3000 FPS via Regressing Local Binary Features    
-2. Face Alignment by Explicit Shape Regression   
+2. Face Alignment by Explicit Shape Regression    
 3. Supervised Descent Method and its Applications to Face Alignment    
 
 
