@@ -62,22 +62,24 @@ class LDCascador(object):
         t = getTimeByStamp(begTime, 
                            time.time(), 'min')
         print("\tLoading Data: %f mins"%(t))
-        print("\tData Number : %d\n"%(dataNum))
-
+        print("\tData Number : %d"%(dataNum))
+        trainSet.calResiduals()
+        sumR = NP.mean(NP.abs(trainSet.residuals))
+        print("\tManhattan Distance in MeanShape : %f\n"%sumR)
+        
         for idx in xrange(self.stageNum):
             print("\t%drd stage begin ..."%idx)
-            begTime = time.time()
-            ### calculate the residuals
-            trainSet.calResiduals()
-
-            sumR = NP.mean(NP.abs(trainSet.residuals))
-            print("\tManhattan Distance Loss in Mean Shape Space : %f"%sumR)
-            
+            begTime = time.time()            
             ### train one stage
             reg = self.regWrapper.getClassInstance(idx)
             reg.train(trainSet)
             self.regressors.append(reg)        
             
+            ### calculate the residuals
+            trainSet.calResiduals()
+            sumR = NP.mean(NP.abs(trainSet.residuals))
+            print("\tManhattan Distance in MeanShape : %f"%sumR)
+
             t = getTimeByStamp(begTime, 
                                time.time(), 'min')
             print("\t%drd stage end : %f mins\n"%(idx, t))
