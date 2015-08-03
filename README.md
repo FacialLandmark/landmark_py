@@ -1,6 +1,13 @@
 Landmark with Regressition in Python
 ====
-Now It only supportes LBF(Local Binary Features)[1] regression(Based on the [matlab version](https://github.com/jwyang/face-alignment)) with [AFW](http://ibug.doc.ic.ac.uk/resources/facial-point-annotations/) dataset. All the things have benn tested on Ubuntu14.04.       
+
+This project aim to implement all the `facial landmark detection with Regressition`. All the following things havd been tested on Ubuntu 14.04.       
+
+* __Supported Algorithms__     
+1. LBF(Local Binary Features)[1] regression(Based on the [matlab version](https://github.com/jwyang/face-alignment)) 
+
+* __Supported Dataset__    
+1. [AFW](http://ibug.doc.ic.ac.uk/resources/facial-point-annotations/) dataset. 
 
 
 #### __Dependencies__    
