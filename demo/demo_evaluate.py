@@ -96,7 +96,7 @@ def main(argv):
         cv2.namedWindow("Landmark")
     
     pathList = open(imgListPath, 'r').readlines()
-    reader = AFLWReader
+    reader = AFWReader
     for imgPath in pathList:
         img, gtShape = reader.read(imgPath.strip())
 

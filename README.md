@@ -30,7 +30,7 @@ Install script on Ubuntu 14.04
 >./demo_train.py ../config/afw_config.py    
 
 * __Evaluate on AFW__       
->./demo_evaluate.py  ../config/model/train.model  ../config/afw_test.lst       
+>./demo_evaluate.py  ../config/afw_model/train.model  ../config/afw_test.lst       
 
 
 #### __Tips__    
