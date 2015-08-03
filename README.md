@@ -22,8 +22,8 @@ Install script on Ubuntu 14.04
 #### __Demo on AFW__    
 ---    
  
-1. Download the AFW dataset [here](http://ibug.doc.ic.ac.uk/resources/facial-point-annotations/). 
-2. Replace the location of afw by yourself in `afw_test.lst` and `afw_train.lst` in config folder(Mine is `/home/samuel/data`).       
+1. Download the AFW dataset [here](http://ibug.doc.ic.ac.uk/resources/facial-point-annotations/)
+2. Replace the location of afw by yourself in `afw_test.lst` and `afw_train.lst` in config folder(Mine is `/home/samuel/data`)
 3. Change `afw_config.py : dataPara.path` by yourself       
 
 * __Train on AFW__     
