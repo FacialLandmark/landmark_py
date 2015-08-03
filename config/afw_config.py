@@ -3,7 +3,7 @@ config = {
     'name'       : "face" ,      
 
     ### Different dataset using different reading method
-    'dataset'    : "aflw" ,
+    'dataset'    : "afw" ,
     'version'    : "1.0"  ,
     'stageNum'   :  5 ,
     
@@ -28,10 +28,10 @@ config = {
 	###    ./fonder/image1.jpg      
 	###    ./fonder/image2.jpg
         ###    ...
-        'path': "/home/samuel/data/AFW/path.txt",
+        'path': "/home/samuel/project/sandbox/landmark_py/config/afw_train.txt",
 
         ### augNum < 1 means don't do augmenting 
-        'augNum' : 1
+        'augNum' : 10
         }     
     }
  

@@ -1,6 +1,6 @@
 Landmark with Regressition in Python
 ====
-Now It only supportes LBF(Local Binary Features)[1] regression(Based on the [matlab version](https://github.com/jwyang/face-alignment)) with __pts__ format dataset      
+Now It only supportes LBF(Local Binary Features)[1] regression(Based on the [matlab version](https://github.com/jwyang/face-alignment)) with [AFW](http://ibug.doc.ic.ac.uk/resources/facial-point-annotations/)dataset. All the things have benn tested on Ubuntu14.04.       
 
 
 #### __Dependencies__    
@@ -19,16 +19,17 @@ Install script on Ubuntu 14.04
 >sudo aptitude install python-opencv    
 
 
-#### __Usage__    
+#### __Demo on AFW__    
 ---    
+ 
+1. Download the AFW dataset [here](http://ibug.doc.ic.ac.uk/resources/facial-point-annotations/). 
+2. Replace the location of afw by yourself in `afw_test.lst` and `afw_train.lst` in config folder(Mine is `/home/samuel/data`).   3. Change `afw_config.py : dataPara.path` by yourself       
 
-* __Train__    
-Get more details of training configuration in `./config/config.py`        
->./demo_train.py ../config/config.py    
+* __Train on AFW__     
+>./demo_train.py ../config/afw_config.py    
 
-* __Evaluate__     
-You can evaluate on different dataset via change the `line99:demo_evaluate.py`        
->./demo_evaluate.py  ../config/model/train.model  path.lst       
+* __Evaluate on AFW__       
+>./demo_evaluate.py  ../config/model/train.model  ../config/afw_test.lst       
 
 
 #### __Tips__    
@@ -50,7 +51,6 @@ Please refer to `cascade/regressor/lbfRegressor.py`. And then wrapped in `cascad
 
 You can find more todo list via searching "TODO" in source code         
 * [__TODO__] Set the shape increment into the tree leaf node. This can speedup the test speed
-* [__TODO__] Support [AFLW](http://lrs.icg.tugraz.at/research/aflw/) training and evaluation
 * [__TODO__] Try random ferns instead of random forest       
 * [__TODO__] Try finding the best split when training Random Forest. Now using random split     
 * [__TODO__] Try different interpolations when computing `Pixel Difference Feature`      

@@ -108,8 +108,8 @@ class DataWrapper(object):
         self.path = para['path']
         self.augNum = para['augNum']
 
-        if 'AFLW' == para['dataset'].upper():
-            self.reader = AFLWReader
+        if 'AFW' == para['dataset'].upper():
+            self.reader = AFWReader
         else:
             raise Exception("Unsupported dataset")
 

@@ -4,7 +4,7 @@ from   numpy import loadtxt
 from PIL import Image
 import re
 
-class AFLWReader(object):
+class AFWReader(object):
     @classmethod
     def read(cls, imgPath):
         imgP = imgPath.strip()
