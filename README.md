@@ -1,6 +1,6 @@
 Landmark with Regressition in Python
 ====
-Now It only supportes LBF(Local Binary Features)[1] regression(Based on the [matlab version](https://github.com/jwyang/face-alignment)) with [AFW](http://ibug.doc.ic.ac.uk/resources/facial-point-annotations/)dataset. All the things have benn tested on Ubuntu14.04.       
+Now It only supportes LBF(Local Binary Features)[1] regression(Based on the [matlab version](https://github.com/jwyang/face-alignment)) with [AFW](http://ibug.doc.ic.ac.uk/resources/facial-point-annotations/) dataset. All the things have benn tested on Ubuntu14.04.       
 
 
 #### __Dependencies__    
@@ -23,7 +23,8 @@ Install script on Ubuntu 14.04
 ---    
  
 1. Download the AFW dataset [here](http://ibug.doc.ic.ac.uk/resources/facial-point-annotations/). 
-2. Replace the location of afw by yourself in `afw_test.lst` and `afw_train.lst` in config folder(Mine is `/home/samuel/data`).   3. Change `afw_config.py : dataPara.path` by yourself       
+2. Replace the location of afw by yourself in `afw_test.lst` and `afw_train.lst` in config folder(Mine is `/home/samuel/data`).       
+3. Change `afw_config.py : dataPara.path` by yourself       
 
 * __Train on AFW__     
 >./demo_train.py ../config/afw_config.py    
