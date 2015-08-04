@@ -26,7 +26,6 @@ class LBFRegressor(object):
         treeNum = int(self.maxTreeNum/pntNum)
         
         ### Train the random forests
-        random.seed
         begTime = time.time()
         for i in xrange(pntNum):
             rf = RandForest(treeDepth = self.treeDepth,
@@ -46,7 +45,6 @@ class LBFRegressor(object):
         elapse = getTimeByStamp(begTime, time.time(), 'min')
         print("\t\tExtract LBFs      : %f mins"%elapse)
 
-        
         ### Global regression
         begTime = time.time()
         y = trainSet.residuals
